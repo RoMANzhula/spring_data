@@ -22,9 +22,32 @@ public class BookController {
         return bookService.createBook(book);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Book>> getAllBooks() {
         return ResponseEntity.ok(bookService.getAllBooks());
     }
+
+
+
+    @GetMapping
+    public ResponseEntity<Book> getBook(@RequestParam Long id) {
+        return bookService.getBook(id);
+    }
+
+    @GetMapping("/name")
+    public ResponseEntity<Book> getByName(@RequestBody String name) {
+        return bookService.getByName(name);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateBook(@RequestBody Book book) {
+        return bookService.updateBook(book);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteBook(@RequestParam Long id) {
+        return bookService.deleteBook(id);
+    }
+
 
 }

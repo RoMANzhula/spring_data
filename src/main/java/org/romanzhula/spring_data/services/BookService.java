@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -27,6 +28,54 @@ public class BookService {
     @Transactional(readOnly = true)
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<Book> getBook(Long id) {
+        Optional<Book> optionalBook = bookRepository.findById(id);
+
+        if (optionalBook.isPresent()) {
+            return ResponseEntity.ok(optionalBook.get());
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<Book> getByName(String name) {
+        Optional<Book> optionalBook = bookRepository.findByName(name);
+
+        if (optionalBook.isPresent()) {
+            return ResponseEntity.ok(optionalBook.get());
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @Transactional
+    public ResponseEntity<?> updateBook(Book book) {
+        Optional<Book> optionalBook = bookRepository.findById(book.getId());
+
+        if (optionalBook.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        bookRepository.save(book);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Transactional
+    public ResponseEntity<?> deleteBook(Long id) {
+        Optional<Book> optionalBook = bookRepository.findById(id);
+
+        if (optionalBook.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        bookRepository.deleteById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }
