@@ -3,6 +3,10 @@ package org.romanzhula.spring_data.services;
 import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.romanzhula.spring_data.models.Book;
 import org.romanzhula.spring_data.repositories.BookRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -144,6 +148,29 @@ public class BookService {
         }
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @Transactional
+    public ResponseEntity<Page<Book>> findAllPageable(int pageNumber, int size) {
+        Pageable pageable = PageRequest.of(pageNumber, size);
+
+        return ResponseEntity.ok(bookRepository.findAll(pageable));
+    }
+
+    @Transactional
+    public ResponseEntity<List<Book>> findAllSorted(String property, String way) {
+        Sort sort = Sort.by(Sort.Direction.fromString(way), property);
+
+        return ResponseEntity.ok(bookRepository.findAll(sort));
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<Page<Book>> findAllPageableAndSorted(int pageNumber, int size, String property, String way) {
+        Sort sort = Sort.by(Sort.Direction.fromString(way), property);
+
+        Pageable pageable = PageRequest.of(pageNumber, size, sort);
+
+        return ResponseEntity.ok(bookRepository.findAll(pageable));
     }
 
 }
