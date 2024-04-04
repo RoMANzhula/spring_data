@@ -78,4 +78,50 @@ public class BookService {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @Transactional(readOnly = true)
+    public ResponseEntity<Boolean> existByName(String name) {
+        return ResponseEntity.ok(bookRepository.existByName(name));
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<Integer> countByAuthor(String author) {
+        return ResponseEntity.ok(bookRepository.countByAuthor(author));
+    }
+
+    @Transactional
+    public ResponseEntity<?> deleteByName(String name) {
+        if (bookRepository.existByName(name)) {
+            bookRepository.deleteByName(name);
+
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<Book>> findFirst4ByAuthor(String author) {
+        return ResponseEntity.ok(bookRepository.findFirst4ByAuthor(author));
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<Book>> findDistinctByAuthor(String author) {
+        return ResponseEntity.ok(bookRepository.findDistinctByAuthor(author));
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<Boolean> existByAuthorAndGenre(String author, String genre) {
+        return ResponseEntity.ok(bookRepository.existsByAuthorAAndGenre(author, genre));
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<Book>> findByNameOrAuthor(String name, String author) {
+        return ResponseEntity.ok(bookRepository.findByNameOrAuthor(name, author));
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<Integer> countByNameContaining(String line) {
+        return ResponseEntity.ok(bookRepository.countByNameContaining(line));
+    }
+
 }
