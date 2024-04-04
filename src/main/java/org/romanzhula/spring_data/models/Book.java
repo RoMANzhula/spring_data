@@ -6,6 +6,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "books")
+@NamedQuery(name = "Book.findByAuthorName", query = "SELECT book FROM Book book WHERE book.author = ? 1")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

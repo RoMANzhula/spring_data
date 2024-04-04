@@ -2,6 +2,8 @@ package org.romanzhula.spring_data.repositories;
 
 import org.romanzhula.spring_data.models.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,5 +29,13 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByNameOrAuthor(String name, String author);
 
     int countByNameContaining(String line);
+
+    @Query("SELECT book FROM Book book")
+    List<Book> findAllJPQL();
+
+    List<Book> findByAuthorName(String author);
+
+    @Query(value = "SELECT book.author FROM book WHERE book.name = :name AND book.genre = :genre", nativeQuery = true)
+    Optional<String> findAuthorByNameAndGenre(@Param("name") String name, @Param("genre") String genre);
 
 }

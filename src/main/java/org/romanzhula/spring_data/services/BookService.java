@@ -1,5 +1,6 @@
 package org.romanzhula.spring_data.services;
 
+import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.romanzhula.spring_data.models.Book;
 import org.romanzhula.spring_data.repositories.BookRepository;
 import org.springframework.http.HttpStatus;
@@ -122,6 +123,27 @@ public class BookService {
     @Transactional(readOnly = true)
     public ResponseEntity<Integer> countByNameContaining(String line) {
         return ResponseEntity.ok(bookRepository.countByNameContaining(line));
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<Book>> findAllJPQL() {
+        return ResponseEntity.ok(bookRepository.findAllJPQL());
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<Book>> findByAuthorName(String author) {
+        return ResponseEntity.ok(bookRepository.findByAuthorName(author));
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<String> findAuthorByNameAndGenre(String name, String genre) {
+        Optional<String> author = bookRepository.findAuthorByNameAndGenre(name, genre);
+
+        if (author.isPresent()) {
+            return ResponseEntity.ok(author.get());
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
 }

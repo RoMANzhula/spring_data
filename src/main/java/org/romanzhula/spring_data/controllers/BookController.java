@@ -2,6 +2,7 @@ package org.romanzhula.spring_data.controllers;
 
 import org.romanzhula.spring_data.models.Book;
 import org.romanzhula.spring_data.services.BookService;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -86,6 +87,21 @@ public class BookController {
     @GetMapping("/count/name/containing")
     public ResponseEntity<Integer> countByNameContaining(@RequestBody String line) {
         return bookService.countByNameContaining(line);
+    }
+
+    @GetMapping("/find/all/jpql")
+    public ResponseEntity<List<Book>> findAllJPQL() {
+        return bookService.findAllJPQL();
+    }
+
+    @GetMapping("/find/author")
+    public ResponseEntity<List<Book>> findByAuthorName(@RequestBody String author) {
+        return bookService.findByAuthorName(author);
+    }
+
+    @GetMapping("/find/author/by/name/genre")
+    public ResponseEntity<String> findAuthorByNameAndGenre(@RequestBody Map<String, String> map) {
+        return bookService.findAuthorByNameAndGenre(map.get("name"), map.get("genre"));
     }
 
 }
