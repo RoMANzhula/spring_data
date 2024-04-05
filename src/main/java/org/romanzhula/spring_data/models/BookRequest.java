@@ -20,9 +20,6 @@ public class BookRequest {
     @JoinColumn(name = "reader_id", nullable = false)
     private Reader reader;
 
-    @OneToMany(mappedBy = "reader")
-    private Set<BookRequest> requests;
-
     public BookRequest() {
     }
 
@@ -50,24 +47,17 @@ public class BookRequest {
         this.reader = reader;
     }
 
-    public Set<BookRequest> getRequests() {
-        return requests;
-    }
-
-    public void setRequests(Set<BookRequest> requests) {
-        this.requests = requests;
-    }
-
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BookRequest that = (BookRequest) o;
-        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(reader, that.reader) && Objects.equals(requests, that.requests);
+        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(reader, that.reader);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, reader, requests);
+        return Objects.hash(id, title, reader);
     }
 }

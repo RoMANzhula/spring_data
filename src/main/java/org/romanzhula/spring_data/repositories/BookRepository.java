@@ -14,7 +14,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Optional<Book> findByName(String name);
 
-    boolean existByName(String name);
+    boolean existsByName(String name);
 
     int countByAuthor(String author);
 
@@ -24,7 +24,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findDistinctByAuthor(String author);
 
-    boolean existsByAuthorAAndGenre(String author, String genre);
+    boolean existsByAuthorAndGenre(String author, String genre);
 
     List<Book> findByNameOrAuthor(String name, String author);
 

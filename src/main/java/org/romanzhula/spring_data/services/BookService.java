@@ -85,7 +85,7 @@ public class BookService {
 
     @Transactional(readOnly = true)
     public ResponseEntity<Boolean> existByName(String name) {
-        return ResponseEntity.ok(bookRepository.existByName(name));
+        return ResponseEntity.ok(bookRepository.existsByName(name));
     }
 
     @Transactional(readOnly = true)
@@ -95,7 +95,7 @@ public class BookService {
 
     @Transactional
     public ResponseEntity<?> deleteByName(String name) {
-        if (bookRepository.existByName(name)) {
+        if (bookRepository.existsByName(name)) {
             bookRepository.deleteByName(name);
 
             return ResponseEntity.status(HttpStatus.OK).build();
@@ -116,7 +116,7 @@ public class BookService {
 
     @Transactional(readOnly = true)
     public ResponseEntity<Boolean> existByAuthorAndGenre(String author, String genre) {
-        return ResponseEntity.ok(bookRepository.existsByAuthorAAndGenre(author, genre));
+        return ResponseEntity.ok(bookRepository.existsByAuthorAndGenre(author, genre));
     }
 
     @Transactional(readOnly = true)
